@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace StudentAPI
 {
@@ -10,7 +11,11 @@ namespace StudentAPI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            var cors = new EnableCorsAttribute("*", "*", "GET");
+            config.EnableCors(cors);
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
             // Web API routes
             config.MapHttpAttributeRoutes();
 
